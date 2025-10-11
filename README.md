@@ -175,4 +175,41 @@ The password can be changed using the vuln request by modifying the parameters p
 
 ---
 
+# Local File Inclusion (LFI) Vulnerability
+
+## Vulnerability Summary
+**Type**: Local File Inclusion  
+**Risk**: Critical  
+**Location**: DVWA File Inclusion Module  
+**Parameter**: `page` 
+
+## Exploitation Proof
+
+### System File Disclosure
+```
+http://localhost/vulnerabilities/fi/?page=../../../../../etc/passwd
+```
+
+### Normal Operation
+```
+http://localhost/vulnerabilities/fi/?page=file1.php
+```
+
+## Impact
+- Read sensitive system files (`/etc/passwd`)
+- Potential source code disclosure
+- Path traversal to arbitrary file access
+
+## Evidence
+<img width="962" height="399" alt="image" src="https://github.com/user-attachments/assets/458f89b7-05d3-46a0-a5ec-de169e1938e7" />
+*Successful retrieval of /etc/passwd via path traversal*
+
+## Remediation
+- Implement input validation
+- Use whitelist of allowed files
+- Restrict directory traversal characters
+
+---
+
+
 
