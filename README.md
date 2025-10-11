@@ -117,10 +117,12 @@ hydra -l admin -P /usr/share/wordlists/rockyou.txt localhost http-post-form "/vu
 ### Step 2: Reverse Shell Connection
 <img width="482" height="537" alt="image" src="https://github.com/user-attachments/assets/f5d973af-25fb-497e-b2a2-538e05f5ab12" />
 *Netcat listener receiving reverse shell connection*
-
-### Step 3: Privilege Escalation
 <img width="958" height="642" alt="image" src="https://github.com/user-attachments/assets/b2916b2c-d3c2-45ee-948f-5d3393e3ae7b" />
-*Gaining root access through privilege escalation*
+*Gaining shell access*
+### Command injection to find php 
+```
+127.0.0.1; which php
+```
 
 ## Technical Details
 - **Injection Point**: IP address parameter
