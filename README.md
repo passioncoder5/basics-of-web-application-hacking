@@ -200,7 +200,7 @@ http://localhost/vulnerabilities/fi/?page=file1.php
 - Potential source code disclosure
 - Path traversal to arbitrary file access
 
-## Evidence
+## Proof Of Concept
 <img width="962" height="399" alt="image" src="https://github.com/user-attachments/assets/458f89b7-05d3-46a0-a5ec-de169e1938e7" />
 *Successful retrieval of /etc/passwd via path traversal*
 
@@ -210,6 +210,47 @@ http://localhost/vulnerabilities/fi/?page=file1.php
 - Restrict directory traversal characters
 
 ---
+# Unrestricted File Upload Vulnerability
+
+## Vulnerability Summary
+**Type**: Unrestricted File Upload → RCE  
+**Risk**: Critical  
+**Location**: DVWA File Upload Module  
+**Security Level**: Medium
+
+## Exploitation Chain
+
+### 1. File Upload Bypass
+- **File**: `php-reverse-shell.php`
+- **Bypass Method**: Content-Type changed to `image/jpeg`
+- **Upload Path**: `../../../hackable/uploads/php-reverse-shell.php`
+
+### 2. Reverse Shell Execution
+```bash
+nc -nlvp 4444
+```
+- **Listener**: Attacker machine port 4444
+- **Shell Access**: Successful connection caught
+
+## Impact
+- Remote code execution
+- Full system compromise
+- Web server privilege access
+
+## Proof Of Concept
+<img width="587" height="949" alt="image" src="https://github.com/user-attachments/assets/07d68aa8-0194-4840-b00b-471d74601672" />
+<img width="1252" height="948" alt="image" src="https://github.com/user-attachments/assets/79d5992a-5d30-4686-a297-93b58500534c" />
+*Webshell uploaded with image content-type bypass*
+<img width="933" height="465" alt="image" src="https://github.com/user-attachments/assets/f73dc7de-19f2-4b3f-a844-8ab20a5cf022" />
+visit http://localhost/hackable/uploads/php-reverse-shell.php
+
+## Remediation
+- Validate file content, not just headers
+- Implement file type verification
+- Restrict executable upload directories
+
+---
+
 
 
 
