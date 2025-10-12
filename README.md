@@ -1,8 +1,4 @@
 # basics-of-web-application-hacking
-Perfect 👍 — let’s start by writing a **clean, professional installation section** for your GitHub `README.md` for **Damn Vulnerable Web Application (DVWA)**.
-
-Here’s a ready-to-paste **Installation** section written in polished Markdown, using both **Docker** (recommended) and **manual setup** methods.
-Later, I can help you add sections like *Overview*, *Usage*, *Screenshots*, and *Security Notice* for a full professional README.
 
 ---
 
