@@ -4,7 +4,7 @@
 
 ## 🧰 Installation
 
-### 🔹 Option 1 — Run DVWA using Docker (Recommended)
+### 🔹 Run DVWA using Docker
 
 DVWA provides an official Docker image that lets you deploy it instantly.
 
@@ -254,6 +254,7 @@ visit http://localhost/hackable/uploads/php-reverse-shell.php
 ## Simple SQL Injection
 <img width="950" height="937" alt="image" src="https://github.com/user-attachments/assets/27212330-a322-476a-b6fc-3bb803990506" />
 <img width="950" height="937" alt="image" src="https://github.com/user-attachments/assets/3afdabf7-833b-4b68-b756-92a34c51cd3b" />
+
 **Automated Commands:**
 
 ```bash
